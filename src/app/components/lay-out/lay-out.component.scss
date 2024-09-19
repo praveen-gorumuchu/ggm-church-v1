@@ -1,0 +1,12 @@
+.drawer-container {
+    height: 100vh;
+    padding: 0;
+  }
+  
+  mat-drawer {
+    width: 620px; // Width of the sidebar
+  }
+  
+  mat-drawer-content {
+    background: #1c222E;
+  }

@@ -1,0 +1,36 @@
+<section class="px-4 pb-5">
+    <div class="row justify-content-around">
+        <ng-container *ngFor="let data of bibleBooks">
+            <!-- Old Test -->
+            <div class="old-test col-lg-6 br-1" *ngIf="data.name === type.OLD">
+                <h2> పాత నిబంధన </h2>
+                <mat-list role="list">
+                    <mat-nav-list role="listitem" *ngFor="let item of data.books">
+                        <div class="book-name">
+                            <a mat-list-item (click)="onClickBook(item, data)" [ngClass]="{ active: isActive(item) }">
+                                {{ item.name }}
+                            </a>
+                        </div>
+                    </mat-nav-list>
+                </mat-list>
+            </div>
+            <!-- New Test -->
+            <div class="old-test col-lg-6" *ngIf="data.name === type.NEW">
+                <h2> కొత్త నిబంధన </h2>
+                <mat-list role="list">
+                    <mat-nav-list role="listitem" *ngFor="let item of data.books">
+                        <div class="book-name">
+                            <a mat-list-item (click)="onClickBook(item, data)" [ngClass]="{ active: isActive(item) }">
+                                {{ item.name }}
+                            </a>
+                        </div>
+                    </mat-nav-list>
+                </mat-list>
+            </div>
+
+
+        </ng-container>
+    </div>
+
+
+</section>

@@ -1,0 +1,14 @@
+.search-sec {
+    // background: #d5d5d5;
+    padding: 32px 0;
+    bottom: 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+
+    mat-form-field {
+        width: 45%;
+    }
+}

@@ -1,0 +1,29 @@
+<section class="main-section mb-5">
+    <div class="container">
+        <div class="title">
+            <div class="row">
+                <div class="col">
+                    <!-- <h2 class="chapter-name text-center">{{currentBook.name}}</h2> -->
+                </div>
+            </div>
+        </div>
+        <section class="my-5">
+            <!-- chapter tiles -->
+            <app-chapters [currentBook]="currentBook" (currentChapter)="getCurrentChapter($event)"></app-chapters>
+        </section>
+        <section class="mt-5">
+            <h2 class="text-center chapter-num">అధ్యాయం: - {{ currentChapterIndex }} </h2>
+        </section>
+        <section class="verse-sec" *ngIf="currentChapter && currentChapter.verses.length > 0">
+            <ng-container *ngFor="let item of currentChapter.verses">
+                <p class="verses d-flex">
+                    <span class="verse-index"> {{ item.id }}. </span>
+                    <span class="verse-val"> {{item.des}} </span>
+                </p>
+            </ng-container>
+
+
+        </section>
+    </div>
+
+</section>

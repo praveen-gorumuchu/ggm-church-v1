@@ -1,0 +1,27 @@
+<header class="header-section" [class.sticky]="isSticky">
+    <mat-toolbar color="primary">
+        <div class="container">
+            <div class="row" class="align-items-center row">
+                <div class="col">
+                    <div class="log">
+                        <h1 color="" class="title">GGM</h1>
+                    </div>
+                </div>
+                <div class="col">
+                    <h2 class="chapter-name text-center">{{currentBook.name}}
+                        <span *ngIf="isSticky"> : {{currentChapterIndex}} </span>
+                    </h2>
+                </div>
+                <div class="col text-right">
+                    <div class="example-sidenav-content">
+                        <button mat-icon-button (click)="toggleDrawer.emit()" color="tertiary">
+                            <span class="material-symbols-outlined menu-icon">
+                                menu
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-toolbar>
+</header>

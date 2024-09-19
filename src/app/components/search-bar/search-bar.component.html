@@ -1,0 +1,9 @@
+<section class="search-sec" *ngIf="false">
+    <form class="wt-100">
+        <mat-form-field appearance="fill">
+            <mat-label>Search</mat-label>
+            <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)"
+                (ngModelChange)="onSearchChange($event)" placeholder="Enter search term">
+        </mat-form-field>
+    </form>
+</section>

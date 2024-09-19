@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Angular build cache
+.angular/cache/
+
+# Compiled output
+dist/
+build/
+
+# Optional npm cache directory
+.npm/
+
+# Environment variables file
+.env
+
+# IDE specific files (if applicable)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# MacOS specific files
+.DS_Store
