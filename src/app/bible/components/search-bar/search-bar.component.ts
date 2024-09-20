@@ -17,7 +17,7 @@ export class SearchBarComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void { }
 
 
-  onSearchChange(query: string) {
+  onSearchChange(query: any) {
     this.searchQuery = this.formatSearchQuery(query);
   }
 

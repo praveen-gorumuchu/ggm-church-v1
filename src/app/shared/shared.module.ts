@@ -9,9 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { BibleService } from './services/bible.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { provideHttpClient } from '@angular/common/http';
+import { SafePipe } from './pipes/safe.pipe';
+import { NoPageFoundComponent } from './components/no-page-found/no-page-found.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 const materialModules = [
   MatToolbarModule,
@@ -20,19 +24,25 @@ const materialModules = [
   MatIconModule,
   MatListModule,
   MatCardModule,
-  MatInputModule
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatMenuModule
 ]
 
 @NgModule({
   declarations: [
-    BibleBooksComponent
+    BibleBooksComponent,
+    SafePipe,
+    NoPageFoundComponent
   ],
   imports: [
     CommonModule,
     ...materialModules,
   ],
   exports: [
-    ...materialModules
+    ...materialModules,
+    NoPageFoundComponent,
+    SafePipe
   ],
   providers: [
     provideHttpClient()

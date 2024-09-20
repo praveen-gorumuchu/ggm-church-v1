@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, Observable, of, Subject, tap } from 'rxjs'
 import { StringConstant } from '../constants/string-constant';
 import { BibleBook, BibleBookTypes, BibleBooksModel } from '../models/bible-books/bible-books.model';
 import { environment } from '../../../environments/environment';
+import { BibleStateModel } from '../models/bible.state.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,21 @@ import { environment } from '../../../environments/environment';
 export class BibleService {
   private bibleBooksObs = new BehaviorSubject<BibleBookTypes[]>([]);
   readonly bibleBooksObsCast = this.bibleBooksObs.asObservable();
-  private currentBookObs = new BehaviorSubject<BibleBook>({
+  private currentBookObs = new BehaviorSubject<BibleBook | any>({
     chapters: [],
     name: '',
     id: ''
   });
   readonly currentBookObsCast = this.currentBookObs.asObservable();
+  private isShowBook = new BehaviorSubject<BibleStateModel>({
+    showBook: false,
+    showChapter: false,
+    showVerses: false
+  });
+  readonly isShowObasCast = this.isShowBook.asObservable();
   private chapterIndexObs = new BehaviorSubject<number>(1);
   readonly chapterIndexObsCast = this.chapterIndexObs.asObservable();
+
 
   private localStorageKey = 'bibleKey';
   temp = false;
@@ -63,13 +71,31 @@ export class BibleService {
     ).subscribe();
   }
 
-  setSideBarStatus(flag:number) {
+  setCurrentBook(book: BibleBook) {
+    this.currentBookObs.next(book);
+  }
+
+  setBibleState(data: BibleStateModel) {
+    this.isShowBook.next(data);
+  }
+
+  setChapterIndex(flag: number) {
     this.chapterIndexObs.next(flag);
+  }
+
+  resetDeafualts() {
+    this.isShowBook.next({
+      showBook: false, showChapter: false, showVerses: false
+    });
+    this.chapterIndexObs.next(1)
+
   }
 
   destory() {
     this.bibleBooksObs.unsubscribe();
     this.chapterIndexObs.unsubscribe();
   }
+
+
 
 }

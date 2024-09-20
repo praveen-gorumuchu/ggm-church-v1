@@ -1,6 +1,8 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { MatDrawer, MatDrawerContent } from '@angular/material/sidenav';
+
+import { AfterViewInit, Component, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDrawer } from '@angular/material/sidenav';
 import { BibileBookList } from '../../shared/models/bible-books/bible-books.model';
+import { BibleService } from '../../shared/services/bible.service';
 
 
 @Component({
@@ -8,40 +10,43 @@ import { BibileBookList } from '../../shared/models/bible-books/bible-books.mode
   templateUrl: './lay-out.component.html',
   styleUrls: ['./lay-out.component.scss']
 })
-export class LayOutComponent implements AfterViewInit {
+export class LayOutComponent implements AfterViewInit, OnInit, OnDestroy {
   currentBook!: BibileBookList;
-  @ViewChild(MatDrawerContent) scrollableContent!: MatDrawerContent;
   @ViewChild('drawer') drawer!: MatDrawer;
-  isSticky = false;
 
-  constructor() { }
+  constructor(private bibleService: BibleService) { }
 
   ngAfterViewInit(): void {
-    if (this.scrollableContent && this.scrollableContent.getElementRef()) {
-      const element = this.scrollableContent.getElementRef().nativeElement;
-
-      // Attach the scroll event listener to mat-drawer-content
-      element.addEventListener('scroll', this.onScroll.bind(this));
-    }
-
   }
 
-  onScroll(event: any) {
-    const scrollTop = event.target.scrollTop;
-    console.log('Scroll Position:', scrollTop);
+  ngOnInit(): void {
+      this.enterFullscreen();
+  }
 
-    if (scrollTop > 50) {
-      this.isSticky = true;
-    } else {
-      this.isSticky = false;
+  enterFullscreen(): void {
+    const elem = document.documentElement as any;  // The entire page
+    
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, Opera
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+      elem.msRequestFullscreen();
     }
   }
+
 
   getBibleBook(book: BibileBookList) {
     this.currentBook = book;
     if (this.currentBook) {
       this.drawer.close();
     }
+  }
+
+  ngOnDestroy(): void {
+    
   }
 
 }

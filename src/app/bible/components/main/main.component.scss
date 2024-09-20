@@ -1,6 +1,7 @@
 .verse-sec {
+    font-size: 42px;
     .verses {
-        font-size: 42px;
+        font-size: inherit;
         font-weight: 500;
         margin: 0;
         line-height: 1.6;
@@ -20,4 +21,20 @@
 .chapter-name {
     font-size: 40px;
     color: #dcdcdc;
+}
+
+.main-section {
+    height: 80vh;
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none; 
+}
+
+.zoom-features {
+    button {
+        margin: 5px;
+        .material-symbols-outlined {
+            color: #b3b3b3;
+        }
+    }
 }

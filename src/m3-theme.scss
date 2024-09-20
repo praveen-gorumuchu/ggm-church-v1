@@ -157,3 +157,11 @@ $dark-theme: mat.define-theme((
     use-system-variables: true,
   ),
 ));
+
+// .dark-theme {
+//   @include mat.all-component-themes($dark-theme);
+// }
+
+// .light-theme {
+//   @include mat.all-component-themes($light-theme);
+// }

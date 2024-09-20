@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { BibleBook, ChapterList } from '../../shared/models/bible-books/bible-books.model';
-import { BibleService } from '../../shared/services/bible.service';
+import { BibleBook, ChapterList } from '../../../shared/models/bible-books/bible-books.model';
+import { BibleService } from '../../../shared/services/bible.service';
 
 
 @Component({
@@ -10,6 +10,7 @@ import { BibleService } from '../../shared/services/bible.service';
 })
 export class ChaptersComponent implements OnChanges, OnInit {
   @Input() currentBook!: BibleBook;
+  @Input() currentChapterIndex: number = 1;
   @Output() currentChapter = new EventEmitter<ChapterList>();
   isActiveChapter!: ChapterList;
 
@@ -19,7 +20,7 @@ export class ChaptersComponent implements OnChanges, OnInit {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.isActiveChapter = this.currentBook.chapters[0];
+    this.isActiveChapter = this.currentBook.chapters[this.currentChapterIndex - 1];
   }
 
   isActive(data: ChapterList) {
@@ -27,9 +28,9 @@ export class ChaptersComponent implements OnChanges, OnInit {
   }
 
   onChapterClick(data: ChapterList) {
-    this.currentChapter.emit(data);
     this.isActiveChapter = data;
     let index = data.name.match(/\d+$/);
-    this.bibleService.setSideBarStatus(index ? parseInt(index[0]) : 1);
+    this.bibleService.setChapterIndex(index ? parseInt(index[0]) : 1);
+    this.currentChapter.emit(data);
   }
 }

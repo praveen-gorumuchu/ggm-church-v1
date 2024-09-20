@@ -10,12 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { LayOutComponent } from './components/lay-out/lay-out.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { HeaderComponent } from './components/header/header.component';
-import { MainComponent } from './components/main/main.component';
-import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { ChaptersComponent } from './components/chapters/chapters.component';
 import { FooterComponent } from './components/footer/footer.component';
-
-
 
 
 @NgModule({
@@ -24,9 +19,6 @@ import { FooterComponent } from './components/footer/footer.component';
     LayOutComponent,
     SideBarComponent,
     HeaderComponent,
-    MainComponent,
-    SearchBarComponent,
-    ChaptersComponent,
     FooterComponent
 
   ],

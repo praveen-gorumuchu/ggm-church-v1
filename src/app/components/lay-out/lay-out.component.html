@@ -1,18 +1,15 @@
 <section>
-    <mat-drawer-container class="drawer-container"> 
+    <mat-drawer-container class="drawer-container">
         <mat-drawer #drawer position="end">
             <app-side-bar (bibleBook)="getBibleBook($event)"></app-side-bar>
         </mat-drawer>
 
-        <mat-drawer-content #scrollableContent>
+        <mat-drawer-content>
             <!-- Main content -->
-            <app-header (toggleDrawer)="drawer.toggle()" [isSticky]="isSticky"></app-header>
-            <app-main >
-                <router-outlet/>
-            </app-main>
-            <app-search-bar></app-search-bar>
+            <app-header id="app-header" (toggleDrawer)="drawer.toggle()"></app-header>
+            <router-outlet></router-outlet>
+
             <!-- <app-footer class="py-5"></app-footer> -->
         </mat-drawer-content>
     </mat-drawer-container>
-
 </section>

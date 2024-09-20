@@ -1,0 +1,51 @@
+<mat-progress-spinner *ngIf="isLoading" mode="indeterminate" value="50"></mat-progress-spinner>
+
+<section class="main-section mb-5 pb-5" *ngIf="!isLoading" (scroll)="onScroll($event)">
+    <div class="container pb-5">
+        <div class="title">
+            <div class="row">
+                <div class="col">
+                    <!-- <h2 class="chapter-name text-center">{{currentBook.name}}</h2> -->
+                </div>
+            </div>
+        </div>
+        <section class="my-5">
+            <!-- chapter tiles -->
+            <div class="zoom-features d-flex justify-content-end mb-3">
+                <button mat-icon-button (click)="zoom('+')"><span class="material-symbols-outlined">
+                        zoom_in
+                    </span></button>
+                <button mat-icon-button (click)="zoom('-')"><span class="material-symbols-outlined">
+                        zoom_out
+                    </span></button>
+                <button mat-icon-button (click)="zoom('')">
+                    <span class="material-symbols-outlined">
+                        restart_alt
+                    </span></button>
+            </div>
+            <app-chapters [currentBook]="currentBook" (currentChapter)="getCurrentChapter($event)"
+                [currentChapterIndex]="currentChapterIndex"></app-chapters>
+        </section>
+        <section class="">
+            <section class="mt-5">
+                <h2 class="text-center chapter-num">అధ్యాయం: - {{ currentChapterIndex }} </h2>
+            </section>
+            <section class="verse-sec" id="zoom-container" (mouseup)="onMouseUp()"
+                *ngIf="currentChapter && currentChapter.verses.length > 0">
+                <ng-container *ngFor="let item of currentChapter.verses; let i = index">
+                    <p class="verses d-flex">
+                        <span class="verse-index"> {{ item.id }}. </span>
+                        <span class="verse-val"> {{item.des}} </span>
+                    </p>
+                </ng-container>
+            </section>
+        </section>
+
+    </div>
+
+    <app-quick-access (changeChapter)="changeChapter($event)"
+        [disableNext]="currentChapterIndex >= currentBook.chapters.length"
+        [disablePrev]="currentChapterIndex -1 <= 0">
+    </app-quick-access>
+
+</section>
