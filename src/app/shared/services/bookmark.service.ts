@@ -96,4 +96,9 @@ export class BookMarkService {
     this.bookMarksListObs.next(data);
   }
 
+  clearAll() {
+    this.bookMarksListObs.next([]);
+    localStorage.removeItem('bookmark');
+  }
+
 }

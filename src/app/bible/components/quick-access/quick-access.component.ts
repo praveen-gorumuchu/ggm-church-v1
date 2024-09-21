@@ -66,6 +66,11 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
     }
   }
 
+  deleteAll() {
+    this.bookMarkService.clearAll();
+    this.bookMarkList = [];
+  }
+
   onChangeChapter(action: QuickAccessActions) {
     this.changeChapter.emit(action);
   }
