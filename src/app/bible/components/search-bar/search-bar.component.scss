@@ -1,14 +1,63 @@
-.search-sec {
-    // background: #d5d5d5;
-    padding: 32px 0;
-    bottom: 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    overflow: hidden;
-
-    mat-form-field {
-        width: 45%;
+::ng-deep {
+    .search-sec {
+        .search-book {
+            input {
+                color: #b3b3b3 !important;
+            }
+        }
     }
+
+    .mat-mdc-form-field-infix {
+        width: 220px;
+    }
+
+    .mat-mdc-text-field-wrapper {
+        background: transparent;
+    }
+
+    .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+        border-bottom-color: #7d7d7d !important;
+    }
+
+    .mdc-text-field--filled:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-line-ripple::before {
+        border-bottom-color: #7d7d7d !important
+    }
+
+    .mat-form-field-label {
+        color: #a5a5a5 !important;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mat-mdc-notch-piece {
+        border-color: #a5a5a5 !important;
+    }
+
+    .--mat-form-field-container-height {
+        min-height: 40px !important;
+    }
+
+    .mat-mdc-form-field-infix {
+        padding: 10px 0 !important;
+    }
+
+    .mat-mdc-text-field-wrapper {
+        height: 46px !important;
+    }
+
+    .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+        caret-color: #7d7d7d !important;
+    }
+
+    .mat-mdc-form-field-icon-suffix>.mat-icon {
+        padding-bottom: 10px !important;
+    }
+    .mat-mdc-notch-piece.mdc-notched-outline__trailing, .mdc-notched-outline--no-label,
+    .mat-mdc-form-field-flex  {
+        outline: none !important;
+    }
+
+    mat-icon {
+        cursor: pointer;
+    }
+   
 }
+

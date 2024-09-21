@@ -12,6 +12,8 @@ import { QuickAccessComponent } from './components/quick-access/quick-access.com
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { A11yModule } from '@angular/cdk/a11y';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const material = [
   MatProgressSpinnerModule,
@@ -32,7 +34,12 @@ const material = [
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    A11yModule,
+    // DragDropModule,
     ...material
+  ],
+  exports: [
+    SearchBarComponent
   ]
 })
 export class BibleModule { }

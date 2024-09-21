@@ -26,7 +26,7 @@ export const MenuList = [
         url: 'bible',
         subMenu: [],
         icon: ''
-    },
+    }
 ]
 
 export interface MenuListModel {

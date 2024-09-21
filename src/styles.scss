@@ -44,11 +44,11 @@ body {
 
 }
 
+@import './assets/scss/responsive.scss';
 @import 'animate.css';
-@import './assets//scss//helper.scss';
+@import './assets/scss/helper.scss';
 @import './assets/scss/grid.css';
 @import './assets/scss/common.scss';
-
 
 body {
   scroll-behavior: smooth;

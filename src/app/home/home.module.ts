@@ -36,6 +36,9 @@ const material = [
     ...material,
     FormsModule,
     ReactiveFormsModule
+  ],
+  exports: [
+    HomeComponent
   ]
 })
 export class HomeModule { }

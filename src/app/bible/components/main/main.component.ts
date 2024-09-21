@@ -1,13 +1,16 @@
+import { DrawerService } from './../../../shared/services/drawer.service';
 
 import { SharedService } from './../../../shared/services/shared.service';
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BibeBookType, BibleBook, ChapterList } from '../../../shared/models/bible-books/bible-books.model';
+import { BibeBookType, BibleBook, ChapterList, VerseModel } from '../../../shared/models/bible-books/bible-books.model';
 import { BibleService } from '../../../shared/services/bible.service';
 import { StringConstant } from '../../../shared/constants/string-constant';
 import { QuickAccessActions } from '../../../shared/models/bible-books/quick-access.model';
 import { ZoomService } from '../../../shared/services/zoom.service';
 import { KeyboardShortcutsService } from '../../../shared/services/key-board-shortcut.service';
+import { BookMarkService } from '../../../shared/services/bookmark.service';
+import { BreakpointService } from '../../../shared/services/breakpoint.service';
 
 @Component({
   selector: 'app-main',
@@ -21,20 +24,33 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   currentChapter!: ChapterList;
   subscriptions: Subscription[] = [];
   isLoading: boolean;
+  isMobile: boolean = false;
+  currentVerse: number = 1;
 
-
+  @ViewChildren('verseContainer') verseContainers!: QueryList<ElementRef>;
   constructor(private bibleService: BibleService, private sharedService: SharedService,
-    private zoomService: ZoomService, private keyboardShortcutsService: KeyboardShortcutsService
+    private zoomService: ZoomService, private keyboardShortcutsService: KeyboardShortcutsService,
+    private bookMarkService: BookMarkService, private breakpointService: BreakpointService
   ) {
+
     this.isLoading = true;
     this.bibleService.getBook(StringConstant.BOOK_1);
+
   }
+
 
   ngOnInit(): void {
     this.getBibleBooks();
-
+    this.getScreen();
   }
 
+  getScreen() {
+    this.subscriptions.push(
+      this.breakpointService.isMobile$.subscribe(isMobile => {
+        this.isMobile = isMobile;
+      }),
+    );
+  }
 
   ngAfterViewInit(): void { }
 
@@ -60,15 +76,22 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getBibleBooks() {
     this.subscriptions.push(
+      // books
       this.bibleService.currentBookObsCast.subscribe((data: BibleBook) => {
         this.isLoading = false
         this.currentBook = data;
-        this.currentChapter = this.currentBook.chapters[0];
+        if (!data.isBookMark) this.currentChapter = this.currentBook.chapters[0];
         this.bibleService.setBibleState({ showBook: true });
       }, () => this.isLoading = false),
-      // this.bibleService.chapterIndexObsCast.subscribe((index: number) => {
-      //   this.currentChapterIndex = index;
-      // })
+      // chapters
+      this.bibleService.chapterIndexObsCast.subscribe((index: number) => {
+        this.currentChapterIndex = index;
+      }),
+      // verses
+      this.bibleService.currentVerseIndexObsCast.subscribe((index: number) => {
+        this.currentVerse = index;
+        this.scrollToVerse(this.currentVerse);
+      })
     )
   }
 
@@ -112,7 +135,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   resetDefaults() {
     this.currentChapterIndex = 1;
     this.bibleService.setChapterIndex(1);
-
   }
 
   getCurrentChapter(data: ChapterList) {
@@ -121,28 +143,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       showBook: true, showChapter: false
     })
   }
-
-
-  onMouseUp() {
-    const selectionData = this.keyboardShortcutsService.getSelectedTextData();
-    if (selectionData) {
-        const { startIndex, endIndex } = selectionData;
-
-        // Adjust indices for inclusivity
-        if (startIndex >= 0 && endIndex >= 0) {
-            // Ensure indices are in correct order
-            const minIndex = Math.min(startIndex, endIndex);
-            const maxIndex = Math.max(startIndex, endIndex);
-            const selectedVerses = this.currentChapter.verses.slice(minIndex, maxIndex + 1);
-            console.log('Selected Verses:', selectedVerses);
-        } else {
-            console.warn('Invalid indices');
-        }
-    } else {
-        console.warn('No text selected');
-    }
-  }
-
 
   @HostListener('window:keydown', ['$event'])
   onKeydown(event: KeyboardEvent) {
@@ -155,9 +155,26 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  // Scroll to verse container
+  scrollToVerse(verseIndex: number) {
+    const verseElement = this.verseContainers && this.verseContainers.find((el, i) => i === verseIndex - 1);
+    if (verseElement) {
+      verseElement.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }
+
+  onMouseUp(event: MouseEvent, index: number, item: VerseModel): void {
+    this.bookMarkService.storeBookMarks(item, this.currentChapter, this.currentBook)
+  }
+
+
   ngOnDestroy(): void {
     this.bibleService.resetDeafualts();
     this.sharedService.destroy(this.subscriptions);
     window.removeEventListener('keydown', this.onKeydown.bind(this));
+    this.isMobile = false;
   }
 }

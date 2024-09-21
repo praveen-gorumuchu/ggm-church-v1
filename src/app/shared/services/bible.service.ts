@@ -1,8 +1,10 @@
+import { SharedService } from './shared.service';
+import { BookMarkService } from './bookmark.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Pipe } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, of, Subject, tap } from 'rxjs';
 import { StringConstant } from '../constants/string-constant';
-import { BibleBook, BibleBookTypes, BibleBooksModel } from '../models/bible-books/bible-books.model';
+import { BibleBook, BibleBookTypes, BibleBooksModel, BookmarkListModel, ChapterList, VerseModel } from '../models/bible-books/bible-books.model';
 import { environment } from '../../../environments/environment';
 import { BibleStateModel } from '../models/bible.state.model';
 
@@ -27,12 +29,15 @@ export class BibleService {
   readonly isShowObasCast = this.isShowBook.asObservable();
   private chapterIndexObs = new BehaviorSubject<number>(1);
   readonly chapterIndexObsCast = this.chapterIndexObs.asObservable();
-
+  private currentVerseIndexObs = new BehaviorSubject<number>(1);
+  readonly currentVerseIndexObsCast = this.currentVerseIndexObs.asObservable();
 
   private localStorageKey = 'bibleKey';
   temp = false;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private bookMarkService: BookMarkService,
+    private sharedService: SharedService
+  ) {
     this.loadData();
   }
 
@@ -63,13 +68,42 @@ export class BibleService {
       .subscribe();
   }
 
-  getBook(path: string) {
+  getBook(path: string, isBookmark?: boolean, chapterIdx?: number, verseIdx?: number) {
     return this.http.get<BibleBook>(`${this.baseUrl}${path}.json`).pipe(
       tap((data: BibleBook) => {
+        if (isBookmark) {
+          data.isBookMark = true;
+          this.setBookMarkData(data);
+        }
         this.currentBookObs.next(data);
+        if (chapterIdx && chapterIdx >= 0 && chapterIdx <= data.chapters.length) this.setChapterIndex(chapterIdx);
+        if (verseIdx && verseIdx >= 0 && verseIdx <= data.chapters[this.currentVerseIndexObs.getValue()].verses.length)
+          this.setVerseIndex(verseIdx);
       })
     ).subscribe();
   }
+
+  setBookMarkData(book: BibleBook) {
+    this.bookMarkService.isBookMarkClickedObsCast.subscribe((data: BookmarkListModel) => {
+      let chapterIdx = 1;
+      let verseIdx = 1;
+      // Find the matching chapter based on the currentChapterId
+      const chapter = book.chapters.find((chapter: ChapterList) => chapter.id === data.currentChapterId);
+      if (chapter) {
+        // Get the chapter index from shared service or default to 1
+        chapterIdx = this.sharedService.getIndex(chapter.id) ?? 1;
+
+        const verse = chapter.verses.find((verse: VerseModel) => verse.id === data.verseId);
+        if (verse) verseIdx = Number(verse.id);
+
+      }
+
+      // Set the chapter and verse index
+      this.setChapterIndex(chapterIdx);
+      this.setVerseIndex(verseIdx);
+    });
+  }
+
 
   setCurrentBook(book: BibleBook) {
     this.currentBookObs.next(book);
@@ -81,6 +115,10 @@ export class BibleService {
 
   setChapterIndex(flag: number) {
     this.chapterIndexObs.next(flag);
+  }
+
+  setVerseIndex(num: number) {
+    this.currentVerseIndexObs.next(num);
   }
 
   resetDeafualts() {

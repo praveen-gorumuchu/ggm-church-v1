@@ -17,18 +17,28 @@
         </div>
     </section>
     <!-- Zoom In Zoom Out -->
-    <!-- <section>
+    <section>
         <div class="bottom-acceess">
             <button mat-icon-button [matMenuTriggerFor]="aboveMenu">
                 <span class="material-symbols-outlined">
-                    add
+                    bookmarks
                 </span>
             </button>
             <mat-menu #aboveMenu="matMenu" yPosition="above">
-
+                <div class="border-bottom book-mark-title">
+                    <h3 class="p-3 m-0 ">Recently Viewed</h3>
+                </div>
+               
+                <ng-container *ngFor="let bookMark of bookMarkList">
+                    <menu mat-menu-item (click)="onBookMarkClick(bookMark)"> 
+                        <span> {{ bookMark.bookName }} : </span>
+                        <span> {{ getChapterNumber(bookMark.chapterName) }} : </span>
+                        <span> {{ bookMark.verseId }} </span>
+                    </menu>
+                </ng-container>
             </mat-menu>
         </div>
-    
 
-    </section> -->
+
+    </section>
 </section>

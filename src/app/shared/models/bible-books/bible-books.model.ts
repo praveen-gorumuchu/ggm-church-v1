@@ -19,6 +19,7 @@ export enum BibeBookType {
 }
 
 export interface BibleBook {
+    isBookMark: boolean,
     chapters: Array<ChapterList>;
     name: string,
     id: string
@@ -27,5 +28,18 @@ export interface BibleBook {
 export interface ChapterList {
     name: string,
     id: string,
-    verses: Array<any>
+    verses: Array<VerseModel>
+}
+
+export interface VerseModel {
+    des: string,
+    id: string
+}
+
+export interface BookmarkListModel {
+    verseId: string,
+    currentChapterId: string,
+    currentBookId: string,
+    bookName: string,
+    chapterName: string,
 }

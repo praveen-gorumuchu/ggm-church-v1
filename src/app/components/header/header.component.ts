@@ -6,6 +6,7 @@ import { BibleBook, ChapterList } from '../../shared/models/bible-books/bible-bo
 import { Subscription } from 'rxjs';
 import { MenuList, MenuListModel } from '../../shared/constants/menu-list';
 import { BibleStateModel } from '../../shared/models/bible.state.model';
+import { BreakpointService } from '../../shared/services/breakpoint.service';
 
 
 @Component({
@@ -25,9 +26,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showBook = false;
   showChapterIndex = false;
   showVerses = false;
+  isMobile: boolean = false;
+  isTablet: boolean = false;
 
   constructor(private bibleService: BibleService, private sharedService: SharedService,
-    private router: Router) { }
+    private router: Router, private breakpointService:BreakpointService ) {
+      this.breakpointService.isMobile$.subscribe(isMobile => {
+        this.isMobile = isMobile;
+      });
+  
+      this.breakpointService.isTablet$.subscribe(isTablet => {
+        this.isTablet = isTablet;
+      });
+     }
 
   ngOnInit(): void {
     this.getBibleBooks();
@@ -82,6 +93,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showBook = false;
     this.showChapterIndex = false;
     this.showVerses = false;
+    this.isMobile = false;
+    this.isTablet= false;
   }
 
 }

@@ -39,10 +39,11 @@
             right: 25px;
 
             button {
-                background-color: tan;
+                // background-color: tan;
+                background-color: transparent;
 
                 .material-symbols-outlined {
-                    color: #1c222e;
+                    color: #bcbcbc;
                     font-weight: 600;
                 }
             }
@@ -51,8 +52,20 @@
     }
 
     .mat-mdc-menu-panel {
-        min-width: 220px !important;
-        max-width: 340px !important;
-        height: 240px;
+        min-width: 260px !important;
+        max-width: 360px !important;
+        height: auto;
+        min-height: 280px;
+        max-height: 300px;
+        padding-bottom: 20px;
+    }
+
+    .mat-mdc-menu-content {
+        padding: 0 !important;
+    }
+
+    .book-mark-title {
+        background: #1c222e;
+        color: #fff;
     }
 }

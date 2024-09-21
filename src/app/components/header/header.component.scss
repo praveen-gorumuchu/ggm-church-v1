@@ -1,8 +1,11 @@
-.title {
-    font-size: 34px;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
+.logo-section {
+    .logo {
+        font-size: 34px;
+        font-weight: 600;
+        color: #fff;
+        cursor: pointer;
+    }
+
 }
 
 .mat-toolbar {
@@ -11,7 +14,7 @@
 }
 
 .chapter-name {
-    font-size: 42px;
+    font-size: 32px;
     color: #dcdcdc;
     font-weight: 500;
 }
@@ -67,5 +70,21 @@
     top: 0;
     left: 0;
     width: 100%;
+  
 }
 
+@media screen and (max-width: 768px) {
+
+    .chapter-name {
+        font-size: 24px;
+
+    }
+
+    .logo-section {
+        .logo {
+            font-size: 28px;
+       
+        }
+    
+    }
+}

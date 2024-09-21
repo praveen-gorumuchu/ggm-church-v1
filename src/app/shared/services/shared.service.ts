@@ -30,6 +30,15 @@ export class SharedService {
     return `book${bookNumber}`;
   }
 
+  getIndex(chapterName: string): number | null {
+    const match = chapterName.match(/\d+/); // Use regex to match digits
+    if (match) {
+      return parseInt(match[0], 10); // Convert the matched string to a number
+    }
+    return null; // Return null if no number is found
+  }
+  
+
 
   destroy(subs: Subscription[]) {
     if (subs && subs.length > 0) {

@@ -33,3 +33,9 @@
     border: 2px solid #f1f1f1;            /* Optional: to create a gap effect */
   }
   
+  @media screen and (max-width: 768px) {
+    mat-drawer {
+        width: 80%;
+    }
+  
+}
