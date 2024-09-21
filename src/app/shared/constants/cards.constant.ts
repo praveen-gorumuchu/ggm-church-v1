@@ -7,7 +7,7 @@ export const CardsConstant = [
         icon: '',
         des: 'Dive into Scripture for guidance, inspiration, and spiritual growth.',
         path: 'bible',
-        img: '/assets/images/bible.avif'
+        img: 'assets/images/bible.avif'
     },
     {
         name: 'songs',
@@ -15,7 +15,7 @@ export const CardsConstant = [
         icon: '',
         des: 'Experience uplifting melodies that inspire faith and joy.',
         path: 'songs',
-        img: '/assets/images/songs.avif'
+        img: 'assets/images/songs.avif'
     },
     {
         name: 'prayer',
@@ -23,7 +23,7 @@ export const CardsConstant = [
         icon: '',
         des: 'Connect with God through heartfelt prayer and reflection.',
         path: 'songs',
-        img: '/assets/images/prayer.avif'
+        img: 'assets/images/prayer.avif'
     }
 ];
 
