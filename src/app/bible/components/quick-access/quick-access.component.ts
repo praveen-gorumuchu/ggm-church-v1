@@ -33,7 +33,7 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
     this.showScroll();
   }
 
-  
+
   showScroll() {
     const scrollableElement = document.getElementById('contentBlock') as HTMLElement;
     if (scrollableElement) {
@@ -64,43 +64,42 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
 
 
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowRight') {
-      this.ngZone.run(() => {
-        this.onChangeChapter(QuickAccessActions.NEXT);
-      });
-    } else if (event.key === 'ArrowLeft') {
-      this.ngZone.run(() => {
-        this.onChangeChapter(QuickAccessActions.PREV);
-      });
+    if (event.ctrlKey && event.shiftKey) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      switch (event.key) {
+        case 'ArrowRight':
+          this.ngZone.run(() => {
+            this.onChangeChapter(QuickAccessActions.NEXT);
+          });
+          break;
+
+        case 'ArrowLeft':
+          this.ngZone.run(() => {
+            this.onChangeChapter(QuickAccessActions.PREV);
+          });
+          break;
+        case 'ArrowUp':
+          this.ngZone.run(() => {
+            this.onChangeChapter(QuickAccessActions.UP);
+          });
+          break;
+
+        case 'ArrowDown':
+          this.ngZone.run(() => {
+            this.onChangeChapter(QuickAccessActions.DOWN);
+          });
+          break;
+
+        default:
+          break;
+      }
     }
 
-    switch (event.key) {
-      case 'ArrowRight':
-        this.ngZone.run(() => {
-          this.onChangeChapter(QuickAccessActions.NEXT);
-        });
-        break;
 
-      case 'ArrowLeft':
-        this.ngZone.run(() => {
-          this.onChangeChapter(QuickAccessActions.PREV);
-        });
-        break;
-      case 'ArrowUp':
-        this.ngZone.run(() => {
-          this.onChangeChapter(QuickAccessActions.UP);
-        });
-        break;
 
-      case 'ArrowDown':
-        this.ngZone.run(() => {
-          this.onChangeChapter(QuickAccessActions.DOWN);
-        });
-        break;
 
-      default:
-        break;
-    }
   }
 
   onChangeChapter(action: QuickAccessActions) {

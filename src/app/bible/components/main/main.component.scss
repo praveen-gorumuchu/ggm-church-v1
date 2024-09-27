@@ -11,6 +11,15 @@
         margin: 0;
         line-height: 1.6;
         color: #cccccc;
+
+        .verse-val, .verse-index {
+            &::selection {
+                background: #FCDE70 !important;
+                color: #1c222e !important;
+            }
+        }
+
+    
     }
 }
 
