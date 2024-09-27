@@ -35,6 +35,8 @@ export class FormsService {
   setErrors(ctrl: AbstractControl, min?: number, max?: number, pattern?: string): string {
     const touched = ctrl.touched;
     if (touched && ctrl.hasError(StringConstant.required)) return StringConstant.REUIRED;
+    else if (touched && !ctrl.hasError(StringConstant.required) && ctrl.hasError(StringConstant.email))
+      return `${StringConstant.INVALID_EMAIL}`
     else if (touched && !ctrl.hasError(StringConstant.required) && ctrl.hasError(StringConstant.pattern))
       return `${StringConstant.INVALID_PATTERN}: ${pattern}`;
     else if (touched && !ctrl.hasError(StringConstant.required) &&

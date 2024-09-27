@@ -57,7 +57,7 @@ export class BibleService {
   }
 
   private fetchDataFromLocalJSON() {
-    this.http.get<BibleBooksModel>(`${this.baseUrl}${EndPointUrlConst.BOOKS_LIST}`)
+    this.http.get<BibleBooksModel>(`${this.baseUrl}${EndPointUrlConst.BOOK_LIST}`)
       .pipe(tap((data: BibleBooksModel) => {
         sessionStorage.setItem(this.localStorageKey, JSON.stringify(data));
         this.bibleBooksObs.next(data.list);
@@ -70,6 +70,8 @@ export class BibleService {
       .subscribe();
   }
 
+
+
   getBook(path: string, isBookmark?: boolean, chapterIdx?: number, verseIdx?: number) {
     return this.http.get<BibleBook>(`${this.baseUrl}${path}.json`).pipe(
       tap((data: BibleBook) => {
@@ -80,8 +82,8 @@ export class BibleService {
           if (chapterIdx && chapterIdx >= 0 && chapterIdx <= data.chapters.length) this.setChapterIndex(chapterIdx);
           if (verseIdx && verseIdx >= 0 &&
             verseIdx <= data.chapters[this.currentVerseIndexObs.getValue()].verses.length) {
-              this.setVerseIndex(verseIdx);
-            }
+            this.setVerseIndex(verseIdx);
+          }
         }
       })
     ).subscribe();

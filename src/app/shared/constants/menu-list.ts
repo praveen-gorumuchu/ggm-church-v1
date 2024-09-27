@@ -26,6 +26,13 @@ export const MenuList = [
         url: 'bible',
         subMenu: [],
         icon: ''
+    },
+    {
+        name: 'activities',
+        title: 'Activities',
+        url: 'activities',
+        subMenu: [],
+        icon: ''
     }
 ]
 

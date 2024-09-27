@@ -5,7 +5,8 @@ export interface BibleBooksModel {
 export interface BibileBookList {
     name: string,
     id: string,
-    chapterCount: number
+    chapterCount: number,
+    transliteration: string[];
 }
 
 export interface BibleBookTypes {

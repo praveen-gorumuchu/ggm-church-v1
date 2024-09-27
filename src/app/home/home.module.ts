@@ -12,6 +12,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { CardsComponent } from './components/cards/cards.component';
 
 
 const material = [
@@ -28,6 +29,7 @@ const material = [
     AboutComponent,
     ContactUsComponent,
     GalleryComponent,
+    CardsComponent,
 
   ],
   imports: [

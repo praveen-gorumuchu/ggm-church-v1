@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from './../../shared/services/shared.service';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BibleService } from '../../shared/services/bible.service';
@@ -28,9 +28,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showVerses = false;
   isMobile: boolean = false;
   isTablet: boolean = false;
+  isBible: boolean = false;
 
   constructor(private bibleService: BibleService, private sharedService: SharedService,
-    private router: Router, private breakpointService:BreakpointService ) {
+    private router: Router, private breakpointService:BreakpointService, private activeRoute: ActivatedRoute) {
       this.breakpointService.isMobile$.subscribe(isMobile => {
         this.isMobile = isMobile;
       });
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.breakpointService.isTablet$.subscribe(isTablet => {
         this.isTablet = isTablet;
       });
+      this.isBible = this.router.url.includes('bible');
      }
 
   ngOnInit(): void {

@@ -1,13 +1,14 @@
-import { BookmarkListModel } from './../../../shared/models/bible-books/bible-books.model';
+import { BibleBook, BookmarkListModel, ChapterList } from './../../../shared/models/bible-books/bible-books.model';
 import { UtilSharedService } from './../../../shared/services/util-shared.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { SearchRequest } from '../../../shared/models/search-request.model';
 import { SearchBookService } from './../../../shared/services/search-book.service';
-import { Component, ElementRef, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { BibileBookList, BibleBookTypes } from '../../../shared/models/bible-books/bible-books.model';
 import { BibleService } from '../../../shared/services/bible.service';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
+import { StringConstant } from '../../../shared/constants/string-constant';
 
 @Component({
   selector: 'app-search-bar',
@@ -15,6 +16,7 @@ import { MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplet
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent implements OnInit, OnChanges {
+  @Input() currentBook!: BibleBook;
   searchForm!: FormGroup;
   filteredBooks!: Observable<BibileBookList[]>;
   filteredChapters!: Observable<number[]>;
@@ -49,39 +51,37 @@ export class SearchBarComponent implements OnInit, OnChanges {
     this.keydownListener = this.onKeydown.bind(this);
     window.addEventListener('keydown', this.keydownListener);
     this.getFilteredOptions();
+    this.getChapterLis();
+    this.populateDeafult();
   }
 
-  ngOnChanges(changes: SimpleChanges): void { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getChapterLis();
+    this.populateDeafult()
+
+  }
+  
+  populateDeafult() {
+    this.book.patchValue(this.currentBook);
+    this.chapter.patchValue(1);
+    this.verse.patchValue(1)
+  }
+
+  getChapterLis() {
+    this.chapterList = this.utilSharedService.convertNumToArray(this.currentBook.chapters.length);
+  }
 
   onSearchChange(query: any) { }
 
   getFilteredOptions() {
     this.filteredBooks =
-      this.utilSharedService.filteredDataComesFirst(this.book, this.bibleBooks, 'name');
+      this.utilSharedService.filterBooks(this.book, this.bibleBooks, StringConstant.TRANS);
     this.filteredChapters = this.utilSharedService.filteredDataComesFirst(
       this.chapter, this.chapterList);
   }
 
   defaultSelect() {
-    this.subs.push(
-      this.filteredBooks.subscribe((options: BibileBookList[]) => {
-        // if (options.length >= 1) {
-        //   const currentBook = options[0];
-        //   this.book.patchValue(currentBook);
-        //   this.chapterList = Array.from({ length: currentBook.chapterCount }, (_, i) => i + 1);
-        //   if (this.chapterList.length > 0) {
-        //     this.filteredChapters = this.utilSharedService.filteredDataComesFirst(
-        //       this.chapter, this.chapterList
-        //     ); // Set the filtered chapters to the list
-        //   }
-        //   this.isBookSelected = true;
-        //   this.chapterInput.nativeElement.focus();
-        //   this.booksAutoComplete.closePanel();
-        // } else {
-        //   this.isBookSelected = false;
-        // }
-      })
-    );
+
   }
 
 
@@ -112,9 +112,9 @@ export class SearchBarComponent implements OnInit, OnChanges {
   }
 
   onVerseSelected() {
-    if(this.verse && this.verse.value) {
-      this.bibleService.setVerseIndex(this.verse.value);  
-    } 
+    if (this.verse && this.verse.value) {
+      this.bibleService.setVerseIndex(this.verse.value);
+    }
   }
 
   displayFn(book: BibleBookTypes): string {

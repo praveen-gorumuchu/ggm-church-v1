@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -19,7 +20,9 @@ export class LayOutComponent implements AfterViewInit, OnInit, OnDestroy {
   isToggleClick: boolean = false;
 
   constructor(private bibleService: BibleService, private breakpointService: BreakpointService,
+    private router: Router
   ) {
+
     this.breakpointService.isMobile$.subscribe(isMobile => {
       this.isMobile = isMobile;
     });
@@ -29,6 +32,7 @@ export class LayOutComponent implements AfterViewInit, OnInit, OnDestroy {
     });
 
   }
+
 
   ngAfterViewInit(): void {
   }

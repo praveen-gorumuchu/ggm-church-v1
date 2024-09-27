@@ -8,6 +8,7 @@ export const StringConstant = {
     SLIDE_URL: 'https://docs.google.com/presentation/d/1PBud_TEUVDsgT1mPUd3zLb8yniHpth5G2I7oUU81QGI/present?slide:id.g3009a3f8083_0_54',
     title: 'Salvation is here! Join our vibrant community today.!',
     required: 'required',
+    email: 'email',
     INVALID_PATTERN: 'Invalid Pattern',
     MIN_LENGTH: 'Min characters should be greater than',
     MAX_LENGTH: 'Max characters should not be exceeded',
@@ -24,6 +25,8 @@ export const StringConstant = {
     ALLOWED: 'Allowed only',
     MOMENT_DDMMMYYY: 'DD-MM-YYYY',
     DDMMYYY_FORMAT: 'dd/MM/yyyy',
-
-
+    TRANS: 'transliteration',
+    LOGIN_TITLE: 'Login to Discover',
+    LOGIN_DES: 'May your heart be filled with peace and your spirit be renewed as you connect with us',
+    INVALID_EMAIL: 'Invalid email'
 }

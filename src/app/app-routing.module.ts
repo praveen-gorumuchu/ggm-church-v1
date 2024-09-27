@@ -1,14 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NoPageFoundComponent } from './shared/components/no-page-found/no-page-found.component';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './shared/gaurds/auth-gaurd';
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
-  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
-  { path: 'bible', loadChildren: () => import('./bible/bible.module').then(m => m.BibleModule) },
-  { path: 'songs', loadChildren: () => import('./songs/songs.module').then(m => m.SongsModule) },
+  {
+    path: '',
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    canActivate: [AuthGuard],  // Protect the home module
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    canActivate: [AuthGuard],
+  },
+  { path: 'bible', loadChildren: () => import('./bible/bible.module').then(m => m.BibleModule), canActivate: [AuthGuard] },
+  { path: 'songs', loadChildren: () => import('./songs/songs.module').then(m => m.SongsModule), canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: '**', component: NoPageFoundComponent },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

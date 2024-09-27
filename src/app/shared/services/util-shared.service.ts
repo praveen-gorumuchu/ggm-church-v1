@@ -150,6 +150,39 @@ export class UtilSharedService {
     )
   }
 
+  filterBooks(ctrl: AbstractControl, arr: any[], key: string): Observable<any[]> {
+    const data = arr.slice();  
+    return ctrl.valueChanges.pipe(
+      startWith(''), 
+      // debounceTime(NumberConstant.TWO_HUNDERED), 
+      // distinctUntilChanged(),
+      switchMap((value: any) => {
+        if (!value || value === '') return of(data); // Return original data if input is empty
+  
+        const inputValue = typeof value === StringConstant.number ? value.toString() : value;
+        const name = inputValue.toString().trim().toLowerCase(); // Ensure the search string is trimmed and lowercase
+  
+        // Filter data based on the search string and transliteration key
+        const filteredData = this.filterByTransliteration(name, data, key);
+  
+        // Return filtered data if matches found, else return original data
+        return of(filteredData.length > 0 ? filteredData : data);
+      })
+    );
+  }
+  
+  // New filterByTransliteration method for filtering by transliteration array
+  private filterByTransliteration(value: string, arr: any[], key: string): any[] {
+    return arr.filter((item: any) =>
+      item[key]?.some((str: string) => str.toLowerCase().includes(value))
+    );
+  }
+  
+  convertNumToArray(num: number) {
+    return Array.from({ length: num }, (_, i) => i + 1);
+  }
+  
+
   removeDuplicates(arr: any[], key?: string): any[] {
     const list = new Set();
     return arr.filter((item: any) => {

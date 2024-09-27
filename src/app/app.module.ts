@@ -11,8 +11,8 @@ import { LayOutComponent } from './components/lay-out/lay-out.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { HomeModule } from './home/home.module';
 import { BibleModule } from './bible/bible.module';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -21,7 +21,8 @@ import { BibleModule } from './bible/bible.module';
     LayOutComponent,
     SideBarComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent
 
   ],
   imports: [

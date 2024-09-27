@@ -14,7 +14,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="search-chapter wt-15 ml-4 primary"
-                *ngIf="book?.value && isBookSelected">
+                *ngIf="book?.value && isBookSelected || true">
                 <input matInput placeholder="" [matAutocomplete]="chaptersAutoComplete" formControlName="chapter"
                     #chapterInput />
                 <mat-autocomplete autoActiveFirstOption #chaptersAutoComplete="matAutocomplete"
@@ -25,7 +25,7 @@
                 </mat-autocomplete>
             </mat-form-field>
             <mat-form-field appearance="outline" class="search-verse wt-10 ml-4 primary"
-                *ngIf="book?.value && isBookSelected && chapter?.value && isChapterSelected">
+                *ngIf="book?.value && isBookSelected && chapter?.value && isChapterSelected || true">
                 <input matInput type="text" formControlName="verse" (keydown.enter)="onVerseSelected()"
                     (change)="onVerseSelected()" #verseInput>
             </mat-form-field>
