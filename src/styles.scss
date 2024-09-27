@@ -87,9 +87,30 @@ body {
 
 
 }
+.dark-bg-primary {
+  background: #1c222e !important;
+  background-image: none !important;
+  color: #fff;
+}
+
+.white-bg {
+  background: #fff;
+}
 
 .section-gap {
   padding: 52px 0;
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.section-title {
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1c222e;
+  }
+}
+
+.body-section {
+  margin-top: 82px;
+}

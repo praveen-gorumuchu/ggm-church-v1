@@ -32,7 +32,7 @@ import { LoginComponent } from './components/login/login.component';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    BibleModule
+
   ],
   providers: [
     provideAnimationsAsync()

@@ -17,7 +17,8 @@
                
                 <div class="col text-right d-flex justify-content-end">
                     <ul class="p-0 sub-menu d-flex list-unstyled m-0 right-nav">
-                        <ng-container *ngIf="!showBook">
+                        <!-- Home Page Navigation Links -->
+                        <ng-container *ngIf="!showBook && !(isMobile || isTablet) && isHome">
                             <li class="nav-item" *ngFor="let menu of menuList">
                                 <a class="nav-link" (click)="onMenuClick(menu)"
                                     [ngClass]="{ active: isActiveMenu(menu) }">
@@ -26,7 +27,9 @@
                             </li>
                         </ng-container>
 
-                        <li class="nav-item" *ngIf="showBook">
+                        <!-- Navigation menu -->
+
+                        <li class="nav-item" *ngIf="showBook || (isMobile || isTablet)">
                             <button mat-icon-button class="menu-btn" (click)="toggleDrawer.emit()" color="secondary">
                                 <span class="material-symbols-outlined menu-icon">
                                     menu

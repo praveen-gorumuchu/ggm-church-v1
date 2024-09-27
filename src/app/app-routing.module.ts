@@ -1,3 +1,4 @@
+import { ActivitiesModule } from './activities/activities.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NoPageFoundComponent } from './shared/components/no-page-found/no-page-found.component';
@@ -15,8 +16,21 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
     canActivate: [AuthGuard],
   },
-  { path: 'bible', loadChildren: () => import('./bible/bible.module').then(m => m.BibleModule), canActivate: [AuthGuard] },
-  { path: 'songs', loadChildren: () => import('./songs/songs.module').then(m => m.SongsModule), canActivate: [AuthGuard] },
+  {
+    path: 'bible',
+    loadChildren: () => import('./bible/bible.module').then(m => m.BibleModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'bible',
+    loadChildren: () => import('./bible/bible.module').then(m => m.BibleModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'activity',
+    loadChildren: () => import('./activities/activities.module').then(m => m.ActivitiesModule),
+    canActivate: [AuthGuard]
+  },
   { path: 'login', component: LoginComponent },
   { path: '**', component: NoPageFoundComponent },
 ]

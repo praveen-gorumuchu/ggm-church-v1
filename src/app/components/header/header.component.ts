@@ -1,9 +1,9 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SharedService } from './../../shared/services/shared.service';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { BibleService } from '../../shared/services/bible.service';
 import { BibleBook, ChapterList } from '../../shared/models/bible-books/bible-books.model';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { MenuList, MenuListModel } from '../../shared/constants/menu-list';
 import { BibleStateModel } from '../../shared/models/bible.state.model';
 import { BreakpointService } from '../../shared/services/breakpoint.service';
@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isMobile: boolean = false;
   isTablet: boolean = false;
   isBible: boolean = false;
+  isHome: boolean = false;
 
   constructor(private bibleService: BibleService, private sharedService: SharedService,
     private router: Router, private breakpointService:BreakpointService, private activeRoute: ActivatedRoute) {
@@ -39,14 +40,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.breakpointService.isTablet$.subscribe(isTablet => {
         this.isTablet = isTablet;
       });
+      this.isHome = this.router.url.includes('home')
       this.isBible = this.router.url.includes('bible');
      }
 
   ngOnInit(): void {
     this.getBibleBooks();
+    this.getRouter();
     this.menuList = MenuList;
     this.activeMenu = this.menuList[0];
+  }
 
+  getRouter() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      // Check the active route path
+      this.activeRoute.firstChild?.url.subscribe(urlSegments => {
+        const currentPath = urlSegments.map(segment => segment.path).join('/');
+        this.isHome = this.router.url.includes('home')
+      });
+    })
   }
 
   isActiveMenu(book: MenuListModel): boolean {

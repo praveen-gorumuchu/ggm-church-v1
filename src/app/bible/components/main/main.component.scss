@@ -49,6 +49,13 @@
 
 @media screen and (max-width: 768px) {
 
+    .filter-section {
+        .filters-wrapper {
+            flex-direction: column;
+        }
+        
+    }
+
     .verse-sec {
         font-size: 24px;
 

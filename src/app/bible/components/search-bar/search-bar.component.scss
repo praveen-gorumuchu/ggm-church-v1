@@ -50,14 +50,30 @@
     .mat-mdc-form-field-icon-prefix>.mat-icon {
         padding-bottom: 10px !important;
     }
-    .mat-mdc-notch-piece.mdc-notched-outline__trailing, .mdc-notched-outline--no-label,
-    .mat-mdc-form-field-flex  {
+
+    .mat-mdc-notch-piece.mdc-notched-outline__trailing,
+    .mdc-notched-outline--no-label,
+    .mat-mdc-form-field-flex {
         outline: none !important;
     }
 
     mat-icon {
         cursor: pointer;
     }
-   
-}
 
+    @media screen and (max-width: 768px) { 
+        .search-book {
+            
+        }
+        .search-chapter {
+            width: 25%;
+            margin-left: 8px !important;
+        }
+
+        .search-verse {
+            width: 20%;
+            margin-left: 8px !important;
+        }
+    }
+
+}

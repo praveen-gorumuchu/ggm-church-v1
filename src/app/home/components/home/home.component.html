@@ -1,7 +1,13 @@
-<section class="home-section dark">
+<section class="home-section dark" (scroll)="onScroll($event)">
     <div class="container section-gap">
-        <div class="">
-            <h1 class="title mt-0"> {{ title }} </h1>
+
+        <div class="row mb-5 pb-3">
+            <div class="col-lg-10 col">
+                <h1 class="title m-0 mb-3"> {{ title }} <span class="hightlight"> {{title2 }} </span> </h1>
+                <p class="m-0 sub-title"> {{ subTitle }} </p>
+            </div>
+        </div>
+        <div>
             <button mat-flat-button class="secondary cta" color="secondary"> Join</button>
         </div>
     </div>

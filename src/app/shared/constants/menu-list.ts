@@ -30,7 +30,24 @@ export const MenuList = [
     {
         name: 'activities',
         title: 'Activities',
-        url: 'activities',
+        url: 'activity',
+        subMenu: [],
+        icon: ''
+    }
+]
+
+export const ActivityMenuList = [
+    {
+        name: 'create',
+        title: 'Create',
+        url: 'create',
+        subMenu: [],
+        icon: ''
+    },
+    {
+        name: '',
+        title: 'Activities',
+        url: 'activity',
         subMenu: [],
         icon: ''
     }
