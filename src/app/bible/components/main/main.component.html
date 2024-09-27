@@ -1,6 +1,6 @@
 <mat-progress-spinner *ngIf="isLoading" mode="indeterminate" value="50"></mat-progress-spinner>
 
-<section class="main-section mb-5 pb-5" *ngIf="!isLoading  && currentChapter" (scroll)="onScroll($event)">
+<section class="main-section mb-5 pb-5" id="contentBlock" *ngIf="!isLoading  && currentChapter" (scroll)="onScroll($event)">
     <div class="container pb-5">
         <div class="title">
             <div class="row">
@@ -13,23 +13,27 @@
             </div>
         </div>
         <section class="my-5">
-            <div class="search-section">
-               
+            <div class="d-flex justify-content-between mb-3 px-2">
+                <div class="search-section">
+                    <app-search-bar></app-search-bar>
+                </div>
+                <div class="zoom-features d-flex justify-content-end mb-3 align-items-center">
+
+                    <button mat-icon-button (click)="zoom('+')"><span class="material-symbols-outlined">
+                            zoom_in
+                        </span></button>
+                    <button mat-icon-button (click)="zoom('-')"><span class="material-symbols-outlined">
+                            zoom_out
+                        </span></button>
+                    <button mat-icon-button (click)="zoom('')">
+                        <span class="material-symbols-outlined">
+                            restart_alt
+                        </span></button>
+                    <app-book-mark></app-book-mark>
+                </div>
             </div>
-            <div class="zoom-features d-flex justify-content-end mb-3">
-                <app-search-bar></app-search-bar>
-                <button mat-icon-button (click)="zoom('+')"><span class="material-symbols-outlined">
-                        zoom_in
-                    </span></button>
-                <button mat-icon-button (click)="zoom('-')"><span class="material-symbols-outlined">
-                        zoom_out
-                    </span></button>
-                <button mat-icon-button (click)="zoom('')">
-                    <span class="material-symbols-outlined">
-                        restart_alt
-                    </span></button>
-            </div>
-            <app-chapters  [currentBook]="currentBook" (currentChapter)="getCurrentChapter($event)"
+
+            <app-chapters [currentBook]="currentBook" (currentChapter)="getCurrentChapter($event)"
                 [currentChapterIndex]="currentChapterIndex"></app-chapters>
         </section>
         <section class="">

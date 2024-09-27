@@ -37,39 +37,16 @@
             position: fixed;
             bottom: 25px;
             right: 25px;
-
+            transition: opacity 0.5s;
+            opacity: 0.6;
             button {
                 // background-color: tan;
-                background-color: transparent;
+                // background-color: transparent;
 
-                .material-symbols-outlined {
-                    color: #bcbcbc;
-                    font-weight: 600;
-                }
+                .material-symbols-outlined {}
             }
         }
 
     }
 
-    .mat-mdc-menu-panel {
-        min-width: 260px !important;
-        max-width: 360px !important;
-        height: auto;
-        min-height: 280px;
-        max-height: 300px;
-        padding-bottom: 20px;
-    }
-
-    .mat-mdc-menu-content {
-        padding: 0 !important;
-    }
-
-    .book-mark-title {
-        background: #1c222e;
-        color: #fff;
-    }
-
-    .delete-btn {
-        color: #cc9a9a;
-    }
 }

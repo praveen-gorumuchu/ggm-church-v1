@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { QuickAccessActions } from '../models/bible-books/quick-access.model';
+import { BibileBookList, BibleBookTypes } from '../models/bible-books/bible-books.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ export class SharedService {
     const parts = curentBook.split('book'); // Split the string by 'book'
     let bookNumber = parseInt(parts[1], 10); // Extract the number after 'book'
     // Handle next or previous
-    if (action === QuickAccessActions.NEXT) {
+    if (action === QuickAccessActions.NEXT || action === QuickAccessActions.DOWN) {
       if (bookNumber < 66) {
         bookNumber++; // Increment for next
       } else {
         bookNumber = 1; // Wrap around to book 1 if the number exceeds 66
       }
-    } else if (action === QuickAccessActions.PREV) {
+    } else if (action === QuickAccessActions.PREV || action === QuickAccessActions.UP) {
       if (bookNumber > 1) {
         bookNumber--; // Decrement for previous
       } else {
@@ -37,7 +38,13 @@ export class SharedService {
     }
     return null; // Return null if no number is found
   }
-  
+
+  combineBibleBooks(bibleBooks: BibleBookTypes[]): BibileBookList[] {
+    return bibleBooks.reduce<BibileBookList[]>((accumulator, current) => {
+      return accumulator.concat(current.books);
+    }, []);
+  }
+
 
 
   destroy(subs: Subscription[]) {

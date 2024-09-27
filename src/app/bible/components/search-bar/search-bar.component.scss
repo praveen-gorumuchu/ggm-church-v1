@@ -1,6 +1,6 @@
 ::ng-deep {
     .search-sec {
-        .search-book {
+        .primary {
             input {
                 color: #b3b3b3 !important;
             }
@@ -47,7 +47,7 @@
         caret-color: #7d7d7d !important;
     }
 
-    .mat-mdc-form-field-icon-suffix>.mat-icon {
+    .mat-mdc-form-field-icon-prefix>.mat-icon {
         padding-bottom: 10px !important;
     }
     .mat-mdc-notch-piece.mdc-notched-outline__trailing, .mdc-notched-outline--no-label,

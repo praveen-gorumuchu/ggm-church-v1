@@ -11,6 +11,7 @@ import { ZoomService } from '../../../shared/services/zoom.service';
 import { KeyboardShortcutsService } from '../../../shared/services/key-board-shortcut.service';
 import { BookMarkService } from '../../../shared/services/bookmark.service';
 import { BreakpointService } from '../../../shared/services/breakpoint.service';
+import { EndPointUrlConst } from '../../../shared/constants/end-point-url.constant';
 
 @Component({
   selector: 'app-main',
@@ -32,10 +33,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     private zoomService: ZoomService, private keyboardShortcutsService: KeyboardShortcutsService,
     private bookMarkService: BookMarkService, private breakpointService: BreakpointService
   ) {
-
     this.isLoading = true;
-    this.bibleService.getBook(StringConstant.BOOK_1);
-
+    this.bibleService.getBook(EndPointUrlConst.BOOK_1);
   }
 
 
@@ -96,6 +95,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   changeChapter(action: QuickAccessActions) {
+    const newBookId = this.sharedService.getBookId(this.currentBook.id, action);
     switch (action) {
       case QuickAccessActions.NEXT:
         if ((this.currentChapterIndex >= this.currentBook.chapters.length)) {
@@ -117,6 +117,17 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         break;
 
+      case QuickAccessActions.DOWN:
+        this.bibleService.getBook(newBookId);
+        this.resetDefaults();
+
+        break;
+
+      case QuickAccessActions.UP:
+        this.bibleService.getBook(newBookId);
+        this.resetDefaults();
+        break;
+
       default:
         break;
     }
@@ -135,6 +146,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   resetDefaults() {
     this.currentChapterIndex = 1;
     this.bibleService.setChapterIndex(1);
+    this.currentVerse = 1;
+    this.bibleService.setVerseIndex(1);
   }
 
   getCurrentChapter(data: ChapterList) {

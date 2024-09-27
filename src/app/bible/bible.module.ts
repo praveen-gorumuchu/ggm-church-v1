@@ -14,11 +14,14 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { BookMarkComponent } from './components/book-mark/book-mark.component';
 
 const material = [
   MatProgressSpinnerModule,
   MatBottomSheetModule,
-  MatCardModule
+  MatCardModule,
+  MatAutocompleteModule
 ]
 
 @NgModule({
@@ -26,7 +29,8 @@ const material = [
     MainComponent,
     ChaptersComponent,
     QuickAccessComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    BookMarkComponent
   ],
   imports: [
     CommonModule,

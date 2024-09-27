@@ -1,10 +1,10 @@
 import { BibleService } from './../../../shared/services/bible.service';
 import { SharedService } from './../../../shared/services/shared.service';
-import { ZoomService } from './../../../shared/services/zoom.service';
 import { Component, Output, EventEmitter, OnInit, OnDestroy, Input, NgZone, HostListener } from '@angular/core';
 import { QuickAccessActions } from '../../../shared/models/bible-books/quick-access.model';
 import { BookMarkService } from '../../../shared/services/bookmark.service';
 import { BookmarkListModel } from '../../../shared/models/bible-books/bible-books.model';
+import { fromEvent, map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-quick-access',
@@ -18,32 +18,41 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
   action = QuickAccessActions;
   showLeftArrow!: boolean;
   showRightArrow!: boolean;
-  bookMarkList: BookmarkListModel[] = [];
+  showUpArrow!: boolean;
+  showDownArrow!: boolean;
+  showScrollArrow: boolean = false;
+  scrollSubscription!: Subscription;
+
   constructor(private ngZone: NgZone, private bookMarkService: BookMarkService,
     private sharedService: SharedService, private bibleService: BibleService) { }
 
   ngOnInit(): void {
-    this.getBookMarks();
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('keydown', this.handleKeyDown.bind(this));
     });
+    this.showScroll();
   }
 
-  getBookMarks() {
-    this.bookMarkService.bookMarksListObsCast.subscribe((data: BookmarkListModel[]) => {
-      const bookMarks: BookmarkListModel[] = this.bookMarkService.getBookMarks();
-      this.bookMarkList = this.bookMarkService.sortBookmarks(bookMarks);
-    })
+  
+  showScroll() {
+    const scrollableElement = document.getElementById('contentBlock') as HTMLElement;
+    if (scrollableElement) {
+      this.scrollSubscription = fromEvent(scrollableElement, 'scroll')
+        .pipe(map(() => scrollableElement.scrollTop))
+        .subscribe(scrollTop => {
+          this.showScrollArrow = scrollTop > 180; // Show button after scrolling down 100px
+        });
+    }
   }
 
-  onBookMarkClick(data: BookmarkListModel) {
-    this.bookMarkService.setBookMarkClicked(data);
-    this.bibleService.getBook(data.currentBookId, true);
+  scrollToTop() {
+    const scrollableElement = document.getElementById('contentBlock') as HTMLElement;
+    if (scrollableElement) {
+      scrollableElement.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
-  getChapterNumber(chapter: string): number | null {
-    return this.sharedService.getIndex(chapter);
-  }
+
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
@@ -64,11 +73,34 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
         this.onChangeChapter(QuickAccessActions.PREV);
       });
     }
-  }
 
-  deleteAll() {
-    this.bookMarkService.clearAll();
-    this.bookMarkList = [];
+    switch (event.key) {
+      case 'ArrowRight':
+        this.ngZone.run(() => {
+          this.onChangeChapter(QuickAccessActions.NEXT);
+        });
+        break;
+
+      case 'ArrowLeft':
+        this.ngZone.run(() => {
+          this.onChangeChapter(QuickAccessActions.PREV);
+        });
+        break;
+      case 'ArrowUp':
+        this.ngZone.run(() => {
+          this.onChangeChapter(QuickAccessActions.UP);
+        });
+        break;
+
+      case 'ArrowDown':
+        this.ngZone.run(() => {
+          this.onChangeChapter(QuickAccessActions.DOWN);
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   onChangeChapter(action: QuickAccessActions) {
@@ -77,6 +109,6 @@ export class QuickAccessComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('keydown', this.handleKeyDown.bind(this));
-
+    this.scrollSubscription.unsubscribe();
   }
 }

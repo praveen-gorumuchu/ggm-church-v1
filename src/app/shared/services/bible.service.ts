@@ -2,17 +2,18 @@ import { SharedService } from './shared.service';
 import { BookMarkService } from './bookmark.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Pipe } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, of, Subject, tap } from 'rxjs';
-import { StringConstant } from '../constants/string-constant';
-import { BibleBook, BibleBookTypes, BibleBooksModel, BookmarkListModel, ChapterList, VerseModel } from '../models/bible-books/bible-books.model';
+import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BibileBookList, BibleBook, BibleBookTypes, BibleBooksModel, BookmarkListModel, ChapterList, VerseModel } from '../models/bible-books/bible-books.model';
 import { environment } from '../../../environments/environment';
 import { BibleStateModel } from '../models/bible.state.model';
+import { EndPointUrlConst } from '../constants/end-point-url.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class BibleService {
+  bookList: BibileBookList[] = [];
   private bibleBooksObs = new BehaviorSubject<BibleBookTypes[]>([]);
   readonly bibleBooksObsCast = this.bibleBooksObs.asObservable();
   private currentBookObs = new BehaviorSubject<BibleBook | any>({
@@ -42,7 +43,7 @@ export class BibleService {
   }
 
   get baseUrl(): string {
-    return `${environment.apiUrl}/${StringConstant.BIBLE_BOOKS}/`;
+    return `${environment.apiUrl}/${EndPointUrlConst.BIBLE_BOOKS}/`;
   }
 
 
@@ -56,10 +57,11 @@ export class BibleService {
   }
 
   private fetchDataFromLocalJSON() {
-    this.http.get<BibleBooksModel>(`${this.baseUrl}${StringConstant.BOOKS_LIST}`)
+    this.http.get<BibleBooksModel>(`${this.baseUrl}${EndPointUrlConst.BOOKS_LIST}`)
       .pipe(tap((data: BibleBooksModel) => {
         sessionStorage.setItem(this.localStorageKey, JSON.stringify(data));
         this.bibleBooksObs.next(data.list);
+        this.bookList = this.sharedService.combineBibleBooks(data.list);
       }), catchError(error => {
         console.error('Error fetching data', error);
         return of([]);
@@ -71,14 +73,16 @@ export class BibleService {
   getBook(path: string, isBookmark?: boolean, chapterIdx?: number, verseIdx?: number) {
     return this.http.get<BibleBook>(`${this.baseUrl}${path}.json`).pipe(
       tap((data: BibleBook) => {
+        this.currentBookObs.next(data);
         if (isBookmark) {
           data.isBookMark = true;
           this.setBookMarkData(data);
+          if (chapterIdx && chapterIdx >= 0 && chapterIdx <= data.chapters.length) this.setChapterIndex(chapterIdx);
+          if (verseIdx && verseIdx >= 0 &&
+            verseIdx <= data.chapters[this.currentVerseIndexObs.getValue()].verses.length) {
+              this.setVerseIndex(verseIdx);
+            }
         }
-        this.currentBookObs.next(data);
-        if (chapterIdx && chapterIdx >= 0 && chapterIdx <= data.chapters.length) this.setChapterIndex(chapterIdx);
-        if (verseIdx && verseIdx >= 0 && verseIdx <= data.chapters[this.currentVerseIndexObs.getValue()].verses.length)
-          this.setVerseIndex(verseIdx);
       })
     ).subscribe();
   }
