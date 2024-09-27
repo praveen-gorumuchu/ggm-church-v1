@@ -189,3 +189,23 @@
   top: 0;
   left: 0;
 }
+
+.border-before-after {
+  position: relative;
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    width: 85px;
+    height: 1px;
+    background: #a1a1a1;
+    left: -95px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &::after {
+   left: auto;
+   right: -95px;
+  }
+}
